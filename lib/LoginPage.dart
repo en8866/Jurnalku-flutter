@@ -57,7 +57,7 @@ class LoginPage extends StatelessWidget {
 
                   TextField(
                     decoration: InputDecoration(
-                      hintText: "12309619",
+                      hintText: "masukan username atau NIS",
                       filled: true,
                       fillColor: const Color(0xFFF3F6FF),
                       enabledBorder: OutlineInputBorder(
@@ -85,7 +85,7 @@ class LoginPage extends StatelessWidget {
                     obscureText: true,
                     decoration: InputDecoration(
                       suffixIcon: const Icon(Icons.visibility),
-                      hintText: "•••••••••",
+                      hintText: "masukan password",
                       filled: true,
                       fillColor: const Color(0xFFF3F6FF),
                       enabledBorder: OutlineInputBorder(

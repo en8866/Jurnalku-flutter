@@ -32,7 +32,7 @@ class DashboardPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: const [
                       Text(
-                        "Enrico Atsal Gunawan",
+                        "Valenrio malordy",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -49,9 +49,9 @@ class DashboardPage extends StatelessWidget {
                   ),
                   ClipOval(
                     child: Image.asset(
-                      "assets/enrico.jpg", // Ganti dengan gambar profilmu
-                      width: 40,
-                      height: 40,
+                      "assets/profile.jpg", // Ganti dengan gambar profil
+                      width: 20,
+                      height: 20,
                       fit: BoxFit.cover,
                     ),
                   )
