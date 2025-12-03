@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:jurnalku/ProgresBelajar.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
+
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
+
+      // ========================= BODY =========================
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,12 +37,20 @@ class DashboardPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Icon(Icons.home, size: 28),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => const DashboardPage()),
+                      );
+                    },
+                    child: const Icon(Icons.home, size: 28, color: Color(0xFF5B6B7A)),
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: const [
                       Text(
-                        "Valenrio malordy",
+                        "valenrio molordy",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -49,9 +67,9 @@ class DashboardPage extends StatelessWidget {
                   ),
                   ClipOval(
                     child: Image.asset(
-                      "assets/profile.jpg", // Ganti dengan gambar profil
-                      width: 20,
-                      height: 20,
+                      "assets/images/profile.jpg",
+                      width: 44,
+                      height: 44,
                       fit: BoxFit.cover,
                     ),
                   )
@@ -66,8 +84,8 @@ class DashboardPage extends StatelessWidget {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xFF123A9F),
-                    Color(0xFF1A43C4),
+                    Color(0xFF163B80),
+                    Color(0xFF2A52B0),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -78,14 +96,14 @@ class DashboardPage extends StatelessWidget {
                   Text(
                     "Selamat Datang di Jurnalku",
                     style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 24,
                         color: Colors.white,
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 10),
                   Text(
-                    "Solusi cerdas untuk memantau perkembangan\nkompetensi siswa secara efektif",
+                    "Solusi cerdas untuk memantau perkembangan kompetensi siswa secara efektif",
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white70,
@@ -98,42 +116,51 @@ class DashboardPage extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // ---------------- APA ITU JURNALKU ----------------
             _buildCard(
               title: "Apa itu Jurnalku?",
               content:
                   "Jurnalku adalah aplikasi cerdas yang membantu guru dan siswa "
                   "dalam memantau kompetensi keahlian siswa secara efektif, terstruktur, "
-                  "dan real-time. Dengan fitur lengkap, proses pemantauan lebih mudah dan transparan.",
+                  "dan real-time.",
             ),
 
-            const SizedBox(height: 15),
+            const SizedBox(height: 18),
 
-            // ---------------- FITUR FITUR ----------------
-            _buildFeature(
-              icon: Icons.school_outlined,
-              title: "Dirancang Khusus",
-              desc:
-                  "Memenuhi kebutuhan spesifik sekolah kami dengan fokus pada kemajuan siswa.",
+            // FEATURES
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _featureMini(
+                      icon: Icons.account_balance_outlined,
+                      title: "Dirancang Khusus",
+                      desc: "Memenuhi kebutuhan spesifik sekolah kami.",
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _featureMini(
+                      icon: Icons.check_circle_outline,
+                      title: "Efektif",
+                      desc: "Memudahkan pemantauan secara real-time.",
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _featureMini(
+                      icon: Icons.sync_alt,
+                      title: "Terintegrasi",
+                      desc: "Validasi dan laporan transparan.",
+                    ),
+                  ),
+                ],
+              ),
             ),
 
-            _buildFeature(
-              icon: Icons.military_tech_outlined,
-              title: "Efektif",
-              desc:
-                  "Memudahkan siswa dan guru melihat perkembangan secara real-time.",
-            ),
+            const SizedBox(height: 26),
 
-            _buildFeature(
-              icon: Icons.layers_outlined,
-              title: "Terintegrasi",
-              desc:
-                  "Pengajuan kompetensi, validasi dan laporan perkembangan yang transparan.",
-            ),
-
-            const SizedBox(height: 30),
-
-            // ---------------- MENU APLIKASI ----------------
+            // MENU
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: const Text(
@@ -144,31 +171,25 @@ class DashboardPage extends StatelessWidget {
                     color: Colors.black87),
               ),
             ),
+            const SizedBox(height: 10),
 
             _buildMenuItem(Icons.person_outline, "Profil",
                 "Lihat dan kelola profilmu di sini."),
-
             _buildMenuItem(Icons.work_outline, "Portofolio",
-                "Lihat dan kelola portofolio kompetensimu di sini."),
-
+                "Lihat dan kelola portofolio."),
             _buildMenuItem(Icons.star_outline, "Sertifikat",
-                "Lihat dan unduh sertifikat kompetensimu di sini."),
-
+                "Lihat dan unduh sertifikat."),
             _buildMenuItem(Icons.menu_book_outlined, "Jurnal Pembiasaan",
-                "Catat dan pantau kegiatan pembiasaan harianmu."),
-
+                "Catat kegiatan harianmu."),
             _buildMenuItem(Icons.people_alt_outlined, "Permintaan Saksi",
-                "Lihat teman yang mengajukan permintaan saksi."),
-
+                "Lihat daftar permintaan."),
             _buildMenuItem(Icons.bar_chart_outlined, "Progress",
-                "Lihat kemajuan kompetensi dan pencapaian belajarmu."),
-
+                "Lihat pencapaian belajarmu."),
             _buildMenuItem(Icons.warning_amber_outlined, "Catatan Sikap",
-                "Lihat catatan sikap dan perilaku dari guru."),
+                "Catatan sikap dari guru."),
 
             const SizedBox(height: 20),
 
-            // ---------------- STATISTIK ----------------
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: const Text(
@@ -180,10 +201,12 @@ class DashboardPage extends StatelessWidget {
               ),
             ),
 
+            const SizedBox(height: 12),
+
             _buildStat(
               title: "Materi Diselesaikan",
               value: "0",
-              color: Colors.green,
+              color: const Color(0xFF2E7D32),
               label: "Selesai",
               icon: Icons.check_circle,
             ),
@@ -191,19 +214,184 @@ class DashboardPage extends StatelessWidget {
             _buildStat(
               title: "Pengajuan Pending",
               value: "0",
-              color: Colors.orange,
+              color: const Color(0xFFEF6C00),
               label: "Pending",
               icon: Icons.access_time,
             ),
 
-            const SizedBox(height: 50),
+            _buildStat(
+              title: "Materi Hari Ini",
+              value: "0",
+              color: const Color(0xFF1976D2),
+              label: "Hari Ini",
+              icon: Icons.calendar_today,
+            ),
+
+            _buildStat(
+              title: "Materi Revisi",
+              value: "0",
+              color: const Color(0xFF8E24AA),
+              label: "Revisi",
+              icon: Icons.refresh,
+            ),
+
+            const SizedBox(height: 18),
+
+            // ---------------- PROGRESS AKADEMIK ----------------
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(0, 2))
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Progress Akademik",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 14),
+                    _progressRow(Colors.indigo.shade700, "Selesai", "0"),
+                    const SizedBox(height: 8),
+                    _progressRow(Colors.indigo.shade300, "Pending", "0"),
+                    const SizedBox(height: 8),
+                    _progressRow(Colors.lightBlue.shade200, "Belum", "0"),
+                    const SizedBox(height: 8),
+                    _progressRow(Colors.teal.shade300, "Hari Ini", "0"),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 18),
+
+            // ---------------- LIHAT PROGRESS ----------------
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue.shade100),
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const ProgressBelajarPage()),
+                        );
+                      },
+                      child: const Text(
+                        "Lihat Progress Kamu →",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      "Belum ada kompetensi / progress",
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          color: Colors.black54),
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      "Lihat semua Kompetensi →",
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.black87,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // ---------------- FOOTER ----------------
+            Container(
+              width: double.infinity,
+              color: const Color(0xFFE8F0FF),
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: const Center(
+                child: Text(
+                  "© GEN-28 PPLG SMK Wikrama Bogor. All Rights Reserved.",
+                  style: TextStyle(color: Color(0xFF234A93)),
+                ),
+              ),
+            ),
           ],
         ),
+      ),
+
+      // ==========================================================
+      //                     BOTTOM NAVIGATION BAR
+      // ==========================================================
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        selectedItemColor: Colors.blue.shade800,
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard_outlined),
+            label: "Dashboard",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book_outlined),
+            label: "Jurnal",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: "Profil",
+          ),
+        ],
+        onTap: (index) {
+          setState(() => currentIndex = index);
+
+          if (index == 0) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const DashboardPage()),
+            );
+          }
+
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ProgressBelajarPage()),
+            );
+          }
+
+          if (index == 2) {
+            // Placeholder: bikin halaman profil nanti
+          }
+        },
       ),
     );
   }
 
-  // ------------------- COMPONENTS -------------------
+  // ==========================================================
+  //                      COMPONENTS
+  // ==========================================================
 
   Widget _buildCard({required String title, required String content}) {
     return Padding(
@@ -213,6 +401,8 @@ class DashboardPage extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [Color(0xFF1E4AC0), Color(0xFF356DDF)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(18),
         ),
@@ -233,33 +423,32 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _buildFeature(
-      {required IconData icon, required String title, required String desc}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Container(
-        padding: const EdgeInsets.all(25),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: const [
-            BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
-          ],
-        ),
-        child: Column(
-          children: [
-            Icon(icon, color: Colors.blue[800], size: 40),
-            const SizedBox(height: 15),
-            Text(title,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 10),
-            Text(
-              desc,
+  Widget _featureMini(
+      {required IconData icon,
+      required String title,
+      required String desc}) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))
+        ],
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: const Color(0xFF2A4EB0), size: 32),
+          const SizedBox(height: 10),
+          Text(title,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14, color: Colors.black54),
-            )
-          ],
-        ),
+              style: const TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 6),
+          Text(desc,
+              textAlign: TextAlign.center,
+              style:
+                  const TextStyle(color: Colors.black54, fontSize: 12)),
+        ],
       ),
     );
   }
@@ -268,10 +457,10 @@ class DashboardPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(12),
           boxShadow: const [
             BoxShadow(color: Colors.black12, blurRadius: 3, offset: Offset(0, 2)),
           ],
@@ -279,28 +468,30 @@ class DashboardPage extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.blue.shade100,
+                color: Colors.blue.shade50,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: Colors.blue, size: 28),
+              child: Icon(icon, color: const Color(0xFF2A4EB0), size: 22),
             ),
-            const SizedBox(width: 15),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title,
-                      style:
-                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 4),
                   Text(subtitle,
-                      style: const TextStyle(fontSize: 13, color: Colors.black54)),
+                      style: const TextStyle(
+                          fontSize: 13, color: Colors.black54)),
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black45),
+            const Icon(Icons.arrow_forward_ios,
+                size: 16, color: Colors.black38),
           ],
         ),
       ),
@@ -317,10 +508,11 @@ class DashboardPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding:
+            const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(14),
           boxShadow: const [
             BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
           ],
@@ -333,26 +525,63 @@ class DashboardPage extends StatelessWidget {
                 children: [
                   Text(title,
                       style:
-                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
+                          const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 12),
                   Text(value,
                       style: TextStyle(
-                        fontSize: 26,
+                        fontSize: 36,
                         fontWeight: FontWeight.bold,
                         color: color,
                       )),
-                  Text(label, style: TextStyle(color: color)),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Container(
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                            color: color, shape: BoxShape.circle),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(label, style: TextStyle(color: color)),
+                    ],
+                  )
                 ],
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(color: color.withOpacity(0.15), shape: BoxShape.circle),
-              child: Icon(icon, color: color),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.12),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color, size: 26),
             )
           ],
         ),
       ),
+    );
+  }
+
+  Widget _progressRow(Color dotColor, String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                    color: dotColor, shape: BoxShape.circle)),
+            const SizedBox(width: 12),
+            Text(label, style: const TextStyle(fontSize: 15)),
+          ],
+        ),
+        Text(value,
+            style: const TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold)),
+      ],
     );
   }
 }
