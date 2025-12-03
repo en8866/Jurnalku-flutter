@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Dashboard.dart';
+import 'exploreeeee.dart'; // Add this import
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -111,7 +112,7 @@ class LoginPage extends StatelessWidget {
                       onPressed: () { 
                         Navigator.push(context,
                           MaterialPageRoute(builder: (context) => const DashboardPage()),
-                          );
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF0A3A85),
@@ -140,35 +141,42 @@ class LoginPage extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            // BOTTOM BUTTON
+            // BOTTOM BUTTON - NAVIGATE TO EXPLORE
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 20),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(40),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Icon(Icons.edit, color: Color(0xFF0A3A85)),
-                      SizedBox(width: 6),
-                      Text(
-                        "Jelajahi siswa",
-                        style: TextStyle(
-                            color: Color(0xFF0A3A85), fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const StudentDirectoryPage()),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 20),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.edit, color: Color(0xFF0A3A85)),
+                        SizedBox(width: 6),
+                        Text(
+                          "Jelajahi siswa",
+                          style: TextStyle(
+                              color: Color(0xFF0A3A85), fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
