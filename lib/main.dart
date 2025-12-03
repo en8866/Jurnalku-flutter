@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'loginpage.dart';
+import 'package:jurnalku/profile.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Jurnalku',
-      home: const LoginPage(),
+      home: const ProfileApp(),
     );
   }
 }
