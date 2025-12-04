@@ -37,15 +37,22 @@ class _DashboardPageState extends State<DashboardPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // ========= HOME ICON CLICKABLE ==========
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const DashboardPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const DashboardPage()),
                       );
                     },
-                    child: const Icon(Icons.home, size: 28, color: Color(0xFF5B6B7A)),
+                    child: const Icon(
+                      Icons.home,
+                      size: 28,
+                      color: Color(0xFF5B6B7A),
+                    ),
                   ),
+
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: const [
@@ -65,6 +72,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ],
                   ),
+
                   ClipOval(
                     child: Image.asset(
                       "assets/images/profile.jpg",
@@ -116,6 +124,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
             const SizedBox(height: 20),
 
+            // ---------------- CARD: APA ITU JURNALKU ----------------
             _buildCard(
               title: "Apa itu Jurnalku?",
               content:
@@ -126,7 +135,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
             const SizedBox(height: 18),
 
-            // FEATURES
+            // ---------------- FEATURE CARDS ----------------
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
@@ -160,7 +169,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
             const SizedBox(height: 26),
 
-            // MENU
+            // ---------------- MENU APLIKASI ----------------
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: const Text(
@@ -173,8 +182,8 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             const SizedBox(height: 10),
 
-            _buildMenuItem(Icons.person_outline, "Profil",
-                "Lihat dan kelola profilmu di sini."),
+            _buildMenuItem(
+                Icons.person_outline, "Profil", "Lihat dan kelola profilmu di sini."),
             _buildMenuItem(Icons.work_outline, "Portofolio",
                 "Lihat dan kelola portofolio."),
             _buildMenuItem(Icons.star_outline, "Sertifikat",
@@ -190,6 +199,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
             const SizedBox(height: 20),
 
+            // ---------------- STATISTIK ----------------
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: const Text(
@@ -365,25 +375,9 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ],
         onTap: (index) {
-          setState(() => currentIndex = index);
-
-          if (index == 0) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const DashboardPage()),
-            );
-          }
-
-          if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const ProgressBelajarPage()),
-            );
-          }
-
-          if (index == 2) {
-            // Placeholder: bikin halaman profil nanti
-          }
+          setState(() {
+            currentIndex = index;
+          });
         },
       ),
     );

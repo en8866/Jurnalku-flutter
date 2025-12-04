@@ -393,27 +393,45 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                       ],
                     ),
                   ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          // Media Sosial - Separated Card
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey[300]!),
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
+              ),
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Media Sosial',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   Container(
+                    width: double.infinity, // Added this line
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey[300]!),
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.grey[50],
                     ),
                     padding: const EdgeInsets.all(12),
-                    child: Column(
+                    child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Media Sosial',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        const Text(
+                        Text(
                           'Media sosial akan ditampilkan di sini',
                           style: TextStyle(
                             fontSize: 12,
