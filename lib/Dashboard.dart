@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jurnalku/ProgresBelajar.dart';
 import 'package:jurnalku/exploreeeee.dart';
+import 'navbar.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -507,6 +508,15 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
     );
   }
+      appBar: CustomNavBar(
+        userName: 'Valen',
+        userSubtitle: 'PPLG XII-3',
+        onHomeTap: () {
+          // Already on home/dashboard
+        },
+      ),
+      body: Column(
+        children: [
 
   Widget _buildMenuItem(IconData icon, String title, String subtitle) {
     return Padding(
