@@ -55,6 +55,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
           // User Info Section with Dropdown
           PopupMenuButton<String>(
             key: _menuKey,
+              offset: const Offset(0, 60), // <-- PUSH MENU DOWN
             onSelected: (value) {
               // open Dashboard for "Dashboard" menu item
               if (value == 'dashboard') {
