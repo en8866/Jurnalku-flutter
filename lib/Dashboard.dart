@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'navbar.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -7,71 +8,15 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-
+      appBar: CustomNavBar(
+        userName: 'Valen',
+        userSubtitle: 'PPLG XII-3',
+        onHomeTap: () {
+          // Already on home/dashboard
+        },
+      ),
       body: Column(
         children: [
-          // ===================== HEADER NAVBAR ===================== //
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 4,
-                  offset: Offset(0, 2),
-                )
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // HOME ICON - CLICKABLE
-                GestureDetector(
-                  onTap: () {
-                    // Klik kembali ke dashboard (bisa diarahkan ke page lain kalau perlu)
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const DashboardPage(),
-                      ),
-                    );
-                  },
-                  child: const Icon(
-                    Icons.home_rounded,
-                    size: 28,
-                    color: Color(0xFF5B6B7A),
-                  ),
-                ),
-
-                // USERNAME + KELAS
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [
-                    Text(
-                      "valenrio molordy",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "PPLG XII-3",
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                  ],
-                ),
-
-                // PROFILE AVATAR
-                ClipOval(
-                  child: Image.asset(
-                    "assets/images/profile.jpg",
-                    width: 44,
-                    height: 44,
-                    fit: BoxFit.cover,
-                  ),
-                )
-              ],
-            ),
-          ),
 
           // ===================== BODY CONTENT ===================== //
           Expanded(
