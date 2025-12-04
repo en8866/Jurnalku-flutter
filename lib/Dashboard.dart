@@ -85,36 +85,31 @@ class _DashboardPageState extends State<DashboardPage> {
             const SizedBox(height: 18),
 
             // ---------------- FEATURE CARDS ----------------
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _featureMini(
-                      icon: Icons.account_balance_outlined,
-                      title: "Dirancang Khusus",
-                      desc: "Memenuhi kebutuhan spesifik sekolah kami.",
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _featureMini(
-                      icon: Icons.check_circle_outline,
-                      title: "Efektif",
-                      desc: "Memudahkan pemantauan secara real-time.",
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _featureMini(
-                      icon: Icons.sync_alt,
-                      title: "Terintegrasi",
-                      desc: "Validasi dan laporan transparan.",
-                    ),
-                  ),
-                ],
+          Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              _featureBig(
+                icon: Icons.account_balance_outlined,
+                title: "Dirancang Khusus",
+                desc: "Memenuhi kebutuhan spesifik sekolah kami dengan fokus pada kemajuan siswa.",
               ),
-            ),
+              const SizedBox(height: 20),
+              _featureBig(
+                icon: Icons.school_outlined,
+                title: "Efektif",
+                desc: "Memudahkan siswa dan guru melihat perkembangan secara real-time.",
+              ),
+              const SizedBox(height: 20),
+              _featureBig(
+                icon: Icons.sync_alt,
+                title: "Terintegrasi",
+                desc: "Validasi dan laporan dibuat lebih transparan dan otomatis.",
+              ),
+            ],
+          ),
+        ),
+
 
             const SizedBox(height: 26),
 
@@ -311,7 +306,6 @@ class _DashboardPageState extends State<DashboardPage> {
                     // ========== LINK LIHAT KOMPETENSI ==========
                     GestureDetector(
                       onTap: () {
-                        // TODO: Masuk ke halaman Kompetensi
                       },
                       child: Row(
                         children: [
@@ -418,35 +412,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget _featureMini(
-      {required IconData icon,
-      required String title,
-      required String desc}) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))
-        ],
-      ),
-      child: Column(
-        children: [
-          Icon(icon, color: const Color(0xFF2A4EB0), size: 32),
-          const SizedBox(height: 10),
-          Text(title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 6),
-          Text(desc,
-              textAlign: TextAlign.center,
-              style:
-                  const TextStyle(color: Colors.black54, fontSize: 12)),
-        ],
-      ),
-    );
-  }
+
 
   Widget _buildMenuItem(IconData icon, String title, String subtitle) {
     return Padding(
@@ -579,4 +545,49 @@ class _DashboardPageState extends State<DashboardPage> {
       ],
     );
   }
+}
+
+Widget _featureBig({
+  required IconData icon,
+  required String title,
+  required String desc,
+}) {
+  return Container(
+    padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 4,
+          offset: Offset(0, 2),
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(icon, size: 50, color: Color(0xFF2A4EB0)),
+        const SizedBox(height: 20),
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          desc,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.black54,
+          ),
+        ),
+      ],
+    ),
+  );
 }

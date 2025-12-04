@@ -71,14 +71,7 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
         automaticallyImplyLeading: false,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF1e3a8a),
-                Color(0xFF2563eb),
-              ],
-            ),
+            color: Colors.white,
           ),
           child: SafeArea(
             child: Padding(
@@ -95,7 +88,7 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                         ),
                         child: const Icon(
                           Icons.menu_book,
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 14, 1, 91),
                           size: 25,
                         ),
                       ),
@@ -103,7 +96,7 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                       const Text(
                         'Jurnalku',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.grey,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),

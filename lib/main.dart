@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jurnalku/Dashboard.dart';
+import 'package:jurnalku/exploreeeee.dart';
 
 
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Jurnalku',
-      home: const DashboardPage(),
+      home: const ExploreeeePage(),
     );
   }
 }
