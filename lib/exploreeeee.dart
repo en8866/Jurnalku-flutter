@@ -64,51 +64,25 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: visibleStudents.length + 3, // +3 for header, results text, and pagination
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return _buildHeader();
-          }
-          if (index == 1) {
-            return _buildResultsCount();
-          }
-          if (index == visibleStudents.length + 2) {
-            return _buildPagination();
-          }
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: _buildStudentCard(visibleStudents[index - 2]),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFF2563eb),
+        toolbarHeight: 60,
+        automaticallyImplyLeading: false,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFF1e3a8a),
+                Color(0xFF2563eb),
+              ],
             ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF1e3a8a), // dark navy
-            Color(0xFF2563eb), // bright blue
-          ],
-        ),
-      ),
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            // Top bar with logo and login
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -122,7 +96,7 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                         child: const Icon(
                           Icons.menu_book,
                           color: Colors.white,
-                          size: 20,
+                          size: 25,
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -145,7 +119,7 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryBlue,
+                      backgroundColor: const Color(0xFF2563eb),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
@@ -164,7 +138,51 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                 ],
               ),
             ),
-            
+          ),
+        ),
+      ),
+      body: ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: visibleStudents.length + 3,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return _buildHeaderContent();
+          }
+          if (index == 1) {
+            return _buildResultsCount();
+          }
+          if (index == visibleStudents.length + 2) {
+            return _buildPagination();
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _buildStudentCard(visibleStudents[index - 2]),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildHeaderContent() {
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF1e3a8a),
+            Color(0xFF2563eb),
+          ],
+        ),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Column(
+          children: [
             // Title and subtitle
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),

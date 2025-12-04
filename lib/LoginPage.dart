@@ -122,7 +122,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       child: const Text(
                         "Masuk",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ),
                   ),
