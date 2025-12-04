@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jurnalku/ProgresBelajar.dart';
-import 'package:jurnalku/exploreeeee.dart';
 import 'navbar.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -18,74 +17,22 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
 
+      // add navbar here (fixed)
+      appBar: CustomNavBar(
+        userName: 'Valen',
+        userSubtitle: 'PPLG XII-3',
+        onHomeTap: () {
+          // Already on home/dashboard
+        },
+      ),
+
       // ========================= BODY =========================
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ---------------- HEADER ----------------
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4,
-                    offset: Offset(0, 2),
-                  )
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // ========= HOME ICON CLICKABLE ==========
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ExploreeeePage()),
-                      );
-                    },
-                    child: const Icon(
-                      Icons.home,
-                      size: 28,
-                      color: Color(0xFF5B6B7A),
-                    ),
-                  ),
 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
-                      Text(
-                        "valenrio molordy",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "PPLG XII-3",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  ClipOval(
-                    child: Image.asset(
-                      "assets/images/profile.jpg",
-                      width: 44,
-                      height: 44,
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                ],
-              ),
-            ),
 
             // ---------------- HERO BANNER ----------------
             Container(
@@ -184,20 +131,13 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             const SizedBox(height: 10),
 
-            _buildMenuItem(
-                Icons.person_outline, "Profil", "Lihat dan kelola profilmu di sini."),
-            _buildMenuItem(Icons.work_outline, "Portofolio",
-                "Lihat dan kelola portofolio."),
-            _buildMenuItem(Icons.star_outline, "Sertifikat",
-                "Lihat dan unduh sertifikat."),
-            _buildMenuItem(Icons.menu_book_outlined, "Jurnal Pembiasaan",
-                "Catat kegiatan harianmu."),
-            _buildMenuItem(Icons.people_alt_outlined, "Permintaan Saksi",
-                "Lihat daftar permintaan."),
-            _buildMenuItem(Icons.bar_chart_outlined, "Progress",
-                "Lihat pencapaian belajarmu."),
-            _buildMenuItem(Icons.warning_amber_outlined, "Catatan Sikap",
-                "Catatan sikap dari guru."),
+            _buildMenuItem(Icons.person_outline, "Profil", "Lihat dan kelola profilmu di sini."),
+            _buildMenuItem(Icons.work_outline, "Portofolio", "Lihat dan kelola portofolio."),
+            _buildMenuItem(Icons.star_outline, "Sertifikat", "Lihat dan unduh sertifikat."),
+            _buildMenuItem(Icons.menu_book_outlined, "Jurnal Pembiasaan", "Catat kegiatan harianmu."),
+            _buildMenuItem(Icons.people_alt_outlined, "Permintaan Saksi", "Lihat daftar permintaan."),
+            _buildMenuItem(Icons.bar_chart_outlined, "Progress", "Lihat pencapaian belajarmu."),
+            _buildMenuItem(Icons.warning_amber_outlined, "Catatan Sikap", "Catatan sikap dari guru."),
 
             const SizedBox(height: 20),
 
@@ -287,113 +227,111 @@ class _DashboardPageState extends State<DashboardPage> {
 
             const SizedBox(height: 18),
 
-                    // ---------------- LIHAT PROGRESS ----------------
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.blue.shade100),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 3,
-                  offset: Offset(0, 1),
-                )
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // ========== TITLE CLICKABLE (BLUE TEXT WITH ARROW) ==========
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ProgressBelajarPage(),
-                      ),
-                    );
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Lihat Progress Kamu",
-                        style: TextStyle(
-                          color: Colors.blue.shade800,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Icon(Icons.arrow_right_alt,
-                          color: Colors.blue.shade800, size: 26),
-                    ],
-                  ),
+            // ---------------- LIHAT PROGRESS ----------------
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.blue.shade100),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 3,
+                      offset: Offset(0, 1),
+                    )
+                  ],
                 ),
-
-                const SizedBox(height: 20),
-
-                // ========== PROGRESS ITEM (SAMA SEPERTI DI FOTO) ==========
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Installasi Postman",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
+                    // ========== TITLE CLICKABLE (BLUE TEXT WITH ARROW) ==========
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProgressBelajarPage(),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Lihat Progress Kamu",
+                            style: TextStyle(
+                              color: Colors.blue.shade800,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Icon(Icons.arrow_right_alt,
+                              color: Colors.blue.shade800, size: 26),
+                        ],
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFD1F5D6),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        "Approved",
-                        style: TextStyle(
-                          color: Color(0xFF2E7D32),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+
+                    const SizedBox(height: 20),
+
+                    // ========== PROGRESS ITEM (SAMA SEPERTI DI FOTO) ==========
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Installasi Postman",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                          ),
                         ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFD1F5D6),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            "Approved",
+                            style: TextStyle(
+                              color: Color(0xFF2E7D32),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // ========== LINK LIHAT KOMPETENSI ==========
+                    GestureDetector(
+                      onTap: () {
+                        // TODO: Masuk ke halaman Kompetensi
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            "Lihat semua Kompetensi",
+                            style: TextStyle(
+                              color: Colors.blue.shade900,
+                              fontSize: 14,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Icon(Icons.arrow_right_alt, color: Colors.blue.shade900, size: 20),
+                        ],
                       ),
                     ),
                   ],
                 ),
-
-                const SizedBox(height: 20),
-
-                // ========== LINK LIHAT KOMPETENSI ==========
-                GestureDetector(
-                  onTap: () {
-                    // TODO: Masuk ke halaman Kompetensi
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        "Lihat semua Kompetensi",
-                        style: TextStyle(
-                          color: Colors.blue.shade900,
-                          fontSize: 14,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Icon(Icons.arrow_right_alt,
-                          color: Colors.blue.shade900, size: 20),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
 
             const SizedBox(height: 30),
 
@@ -439,6 +377,7 @@ class _DashboardPageState extends State<DashboardPage> {
         onTap: (index) {
           setState(() {
             currentIndex = index;
+            // optionally navigate to different pages here
           });
         },
       ),
@@ -508,15 +447,6 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
     );
   }
-      appBar: CustomNavBar(
-        userName: 'Valen',
-        userSubtitle: 'PPLG XII-3',
-        onHomeTap: () {
-          // Already on home/dashboard
-        },
-      ),
-      body: Column(
-        children: [
 
   Widget _buildMenuItem(IconData icon, String title, String subtitle) {
     return Padding(

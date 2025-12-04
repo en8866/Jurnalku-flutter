@@ -6,7 +6,7 @@ void main() {
 }
 
 class ProfileApp extends StatelessWidget {
-  const ProfileApp({Key? key}) : super(key: key);
+  const ProfileApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ProfileApp extends StatelessWidget {
 }
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();

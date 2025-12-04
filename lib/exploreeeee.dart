@@ -23,7 +23,7 @@ class ExploreeeePage extends StatelessWidget {
 }
 
 class StudentDirectoryPage extends StatefulWidget {
-  const StudentDirectoryPage({Key? key}) : super(key: key);
+  const StudentDirectoryPage({super.key});
 
   @override
   State<StudentDirectoryPage> createState() => _StudentDirectoryPageState();

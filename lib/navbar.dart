@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'pengaturanAkun.dart';
+import 'exploreeeee.dart';
+import 'Dashboard.dart';
 
 // Main Navbar Widget with Dropdown
 class CustomNavBar extends StatefulWidget implements PreferredSizeWidget {
@@ -8,12 +11,12 @@ class CustomNavBar extends StatefulWidget implements PreferredSizeWidget {
   final BuildContext? context;
 
   const CustomNavBar({
-    Key? key,
+    super.key,
     required this.userName,
     required this.userSubtitle,
     this.onHomeTap,
     this.context,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomNavBar> createState() => _CustomNavBarState();
@@ -34,10 +37,15 @@ class _CustomNavBarState extends State<CustomNavBar> {
       automaticallyImplyLeading: false,
       title: Row(
         children: [
-          // Home Icon
+          // Home Icon - Navigate to Explore
           IconButton(
             icon: const Icon(Icons.home_outlined, color: Colors.grey),
-            onPressed: widget.onHomeTap ?? () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const StudentDirectoryPage()),
+              );
+            },
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
@@ -48,10 +56,33 @@ class _CustomNavBarState extends State<CustomNavBar> {
           PopupMenuButton<String>(
             key: _menuKey,
             onSelected: (value) {
+              // open Dashboard for "Dashboard" menu item
+              if (value == 'dashboard') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DashboardPage()),
+                );
+                return;
+              }
+              
+              // open StudentDirectoryPage for "Jelajahi"
+              if (value == 'schedule') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StudentDirectoryPage()),
+                );
+                return;
+              }
+
               if (value == 'profile') {
                 Navigator.pushNamed(context, '/profile');
               } else if (value == 'settings') {
-                Navigator.pushNamed(context, '/pengaturanAkun');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PengaturanAkunPage(),
+                  ),
+                );
               } else if (value == 'logout') {
                 Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
               }
@@ -203,7 +234,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
 // Example Usage Page
 class ExamplePage extends StatelessWidget {
-  const ExamplePage({Key? key}) : super(key: key);
+  const ExamplePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -232,13 +263,13 @@ class CustomNavBarAltIcon extends StatelessWidget implements PreferredSizeWidget
   final IconData profileIcon;
 
   const CustomNavBarAltIcon({
-    Key? key,
+    super.key,
     required this.userName,
     required this.userSubtitle,
     this.onProfileTap,
     this.onHomeTap,
     this.profileIcon = Icons.account_circle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -305,7 +336,7 @@ class CustomNavBarAltIcon extends StatelessWidget implements PreferredSizeWidget
 
 // Example with multiple pages using the same navbar
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -323,7 +354,7 @@ class HomePage extends StatelessWidget {
 }
 
 class ProfilePageExample extends StatelessWidget {
-  const ProfilePageExample({Key? key}) : super(key: key);
+  const ProfilePageExample({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -351,7 +382,7 @@ class CustomStyledNavBar extends StatelessWidget implements PreferredSizeWidget 
   final Color iconColor;
 
   const CustomStyledNavBar({
-    Key? key,
+    super.key,
     required this.userName,
     required this.userSubtitle,
     this.onProfileTap,
@@ -359,7 +390,7 @@ class CustomStyledNavBar extends StatelessWidget implements PreferredSizeWidget 
     this.backgroundColor = Colors.white,
     this.textColor = Colors.black87,
     this.iconColor = Colors.grey,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

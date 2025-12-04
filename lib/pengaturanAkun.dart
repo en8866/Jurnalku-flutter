@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PengaturanAkunPage extends StatefulWidget {
-  const PengaturanAkunPage({Key? key}) : super(key: key);
+  const PengaturanAkunPage({super.key});
 
   @override
   State<PengaturanAkunPage> createState() => _PengaturanAkunPageState();
