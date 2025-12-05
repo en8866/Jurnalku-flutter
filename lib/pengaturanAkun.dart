@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// Import CustomNavBar dari file navbar.dart
+import 'navbar.dart'; 
 
 class PengaturanAkunPage extends StatefulWidget {
   const PengaturanAkunPage({super.key});
@@ -15,10 +17,11 @@ class _PengaturanAkunPageState extends State<PengaturanAkunPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0,
+      // Ganti AppBar biasa dengan CustomNavBar
+      appBar: const CustomNavBar(
+        // Ganti dengan data pengguna yang sebenarnya
+        userName: 'Valen', 
+        userSubtitle: 'PPLG XII-3', 
       ),
       body: SingleChildScrollView(
         child: Column(

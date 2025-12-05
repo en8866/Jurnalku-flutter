@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+// Import CustomNavBar from the separate file
+import 'navbar.dart';
 
-class CatatanSikapPage extends StatelessWidget {
+class CatatanSikapPage extends StatefulWidget {
   const CatatanSikapPage({super.key});
+
+  @override
+  State<CatatanSikapPage> createState() => _CatatanSikapPageState();
+}
+
+class _CatatanSikapPageState extends State<CatatanSikapPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -9,10 +17,28 @@ class CatatanSikapPage extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 600;
     
+    // Sample data - replace with actual data
+    final List<Map<String, dynamic>> catatanList = [
+      // Empty list for now - when you have data, uncomment below
+      // {
+      //   'no': 1,
+      //   'kategori': 'Kedisiplinan',
+      //   'catatan': 'Terlambat masuk kelas',
+      //   'status': 'Dalam Perbaikan',
+      //   'dilaporkan': '12 Nov 2024',
+      //   'updateTerakhir': '15 Nov 2024',
+      // },
+    ];
+    
     return Scaffold(
       backgroundColor: Colors.white,
-      
-
+      // --- START: ADDED CustomNavBar HERE ---
+      appBar: CustomNavBar(
+        userName: 'Valen', // Replace with dynamic user data
+        userSubtitle: 'PPLG XII-3', // Replace with dynamic user data
+        context: context, // Pass context for navigation logic within CustomNavBar
+      ),
+      // --- END: ADDED CustomNavBar HERE ---
       body: Container(
         color: const Color(0xFFF9FAFB),
         child: SingleChildScrollView(
@@ -93,7 +119,7 @@ class CatatanSikapPage extends StatelessWidget {
                         children: [
                           _buildStatCard(
                             'Total Catatan',
-                            '0',
+                            '${catatanList.length}',
                             Icons.description_outlined,
                             const Color(0xFFEFF6FF),
                             const Color(0xFF3B82F6),
@@ -124,7 +150,7 @@ class CatatanSikapPage extends StatelessWidget {
                           Expanded(
                             child: _buildStatCard(
                               'Total Catatan',
-                              '0',
+                              '${catatanList.length}',
                               Icons.description_outlined,
                               const Color(0xFFEFF6FF),
                               const Color(0xFF3B82F6),
@@ -155,68 +181,8 @@ class CatatanSikapPage extends StatelessWidget {
                 
                 const SizedBox(height: 24),
                 
-                // Table Section - Make scrollable on mobile
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0xFFE5E7EB)),
-                  ),
-                  child: Column(
-                    children: [
-                      // Table Header
-                      if (!isMobile) _buildDesktopTableHeader(),
-                      if (isMobile) _buildMobileTableHeader(),
-                      
-                      // Empty State
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          vertical: isMobile ? 40 : 60,
-                          horizontal: 20,
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: isMobile ? 80 : 100,
-                              height: isMobile ? 80 : 100,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF3F4F6),
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: const Color(0xFFE5E7EB),
-                                  width: 2,
-                                ),
-                              ),
-                              child: Icon(
-                                Icons.check_circle_outline,
-                                size: isMobile ? 40 : 50,
-                                color: const Color(0xFF9CA3AF),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              'Tidak ada catatan',
-                              style: TextStyle(
-                                fontSize: isMobile ? 16 : 18,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Belum ada catatan sikap yang dilaporkan',
-                              style: TextStyle(
-                                fontSize: isMobile ? 13 : 14,
-                                color: Colors.black54,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Expansion Tiles Section with Dropdown
+                _buildCatatanSikapSection(catatanList, isMobile),
               ],
             ),
           ),
@@ -225,134 +191,239 @@ class CatatanSikapPage extends StatelessWidget {
     );
   }
 
-
- 
-  
-
-  
-  Widget _buildDesktopTableHeader() {
+  Widget _buildCatatanSikapSection(List<Map<String, dynamic>> catatanList, bool isMobile) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-      decoration: const BoxDecoration(
-        color: Color(0xFFFAFAFA),
-        border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
-        ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
       ),
-      child: Row(
-        children: const [
-          SizedBox(
-            width: 50,
-            child: Text(
-              'NO',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 11,
-                color: Color(0xFF6B7280),
-                letterSpacing: 0.5,
-              ),
+      child: Theme(
+        data: ThemeData(
+          dividerColor: Colors.transparent,
+        ),
+        child: ExpansionTile(
+          initiallyExpanded: false,
+          tilePadding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 16 : 20,
+            vertical: 12,
+          ),
+          backgroundColor: const Color(0xFFFAFAFA),
+          collapsedBackgroundColor: const Color(0xFFFAFAFA),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              'KATEGORI',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 11,
-                color: Color(0xFF6B7280),
-                letterSpacing: 0.5,
-              ),
+          collapsedShape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          title: Text(
+            'DAFTAR CATATAN SIKAP',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: isMobile ? 11 : 12,
+              color: const Color(0xFF6B7280),
+              letterSpacing: 0.5,
             ),
           ),
-          Expanded(
-            flex: 3,
-            child: Text(
-              'CATATAN',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 11,
-                color: Color(0xFF6B7280),
-                letterSpacing: 0.5,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              'STATUS',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 11,
-                color: Color(0xFF6B7280),
-                letterSpacing: 0.5,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              'DILAPORKAN',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 11,
-                color: Color(0xFF6B7280),
-                letterSpacing: 0.5,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              'UPDATE TERAKHIR',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 11,
-                color: Color(0xFF6B7280),
-                letterSpacing: 0.5,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 80,
-            child: Text(
-              'AKSI',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 11,
-                color: Color(0xFF6B7280),
-                letterSpacing: 0.5,
-              ),
-            ),
-          ),
-        ],
+          children: [
+            // Content - Either expansion tiles or empty state
+            catatanList.isEmpty
+                ? _buildEmptyState(isMobile)
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: catatanList.length,
+                    itemBuilder: (context, index) {
+                      final catatan = catatanList[index];
+                      return _buildExpansionTile(catatan, index, isMobile);
+                    },
+                  ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildMobileTableHeader() {
+  Widget _buildExpansionTile(Map<String, dynamic> catatan, int index, bool isMobile) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: const BoxDecoration(
-        color: Color(0xFFFAFAFA),
-        border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
+        border: Border(
+          bottom: BorderSide(color: Color(0xFFE5E7EB)),
         ),
       ),
-      child: const Center(
-        child: Text(
-          'DAFTAR CATATAN SIKAP',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 11,
-            color: Color(0xFF6B7280),
-            letterSpacing: 0.5,
+      child: Theme(
+        data: ThemeData(
+          dividerColor: Colors.transparent,
+        ),
+        child: ExpansionTile(
+          tilePadding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 16 : 20,
+            vertical: 4,
+          ),
+          childrenPadding: EdgeInsets.fromLTRB(
+            isMobile ? 16 : 20,
+            0,
+            isMobile ? 16 : 20,
+            16,
+          ),
+          title: Text(
+            'Catatan ${index + 1}',
+            style: TextStyle(
+              fontSize: isMobile ? 14 : 15,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xFF3B82F6),
+            ),
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              catatan['kategori'] ?? '-',
+              style: TextStyle(
+                fontSize: isMobile ? 12 : 13,
+                color: const Color(0xFF6B7280),
+              ),
+            ),
+          ),
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF9FAFB),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildDetailRow('No', catatan['no'].toString(), isMobile), // Ensure 'no' is string
+                  const SizedBox(height: 12),
+                  _buildDetailRow('Kategori', catatan['kategori'], isMobile),
+                  const SizedBox(height: 12),
+                  _buildDetailRow('Catatan', catatan['catatan'], isMobile),
+                  const SizedBox(height: 12),
+                  _buildDetailRow('Status', catatan['status'], isMobile, 
+                    statusColor: _getStatusColor(catatan['status'])),
+                  const SizedBox(height: 12),
+                  _buildDetailRow('Dilaporkan', catatan['dilaporkan'], isMobile),
+                  const SizedBox(height: 12),
+                  _buildDetailRow('Update Terakhir', catatan['updateTerakhir'], isMobile),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, String value, bool isMobile, {Color? statusColor}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: isMobile ? 120 : 140,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: isMobile ? 12 : 13,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xFF374151),
+            ),
           ),
         ),
+        const Text(
+          ': ',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF374151),
+          ),
+        ),
+        Expanded(
+          child: statusColor != null
+              ? Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: statusColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: isMobile ? 12 : 13,
+                      fontWeight: FontWeight.w500,
+                      color: statusColor,
+                    ),
+                  ),
+                )
+              : Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: isMobile ? 12 : 13,
+                    color: const Color(0xFF6B7280),
+                  ),
+                ),
+        ),
+      ],
+    );
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'Dalam Perbaikan':
+        return const Color(0xFFF59E0B);
+      case 'Sudah Berubah':
+        return const Color(0xFF22C55E);
+      default:
+        return const Color(0xFF3B82F6);
+    }
+  }
+
+  Widget _buildEmptyState(bool isMobile) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 40 : 60,
+        horizontal: 20,
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: isMobile ? 80 : 100,
+            height: isMobile ? 80 : 100,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF3F4F6),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: const Color(0xFFE5E7EB),
+                width: 2,
+              ),
+            ),
+            child: Icon(
+              Icons.check_circle_outline,
+              size: isMobile ? 40 : 50,
+              color: const Color(0xFF9CA3AF),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'Tidak ada catatan',
+            style: TextStyle(
+              fontSize: isMobile ? 16 : 18,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Belum ada catatan sikap yang dilaporkan',
+            style: TextStyle(
+              fontSize: isMobile ? 13 : 14,
+              color: Colors.black54,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

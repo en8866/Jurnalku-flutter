@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:jurnalku/ProgresBelajar.dart';
+import 'navbar.dart'; // Import your navbar
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
+  final String userName;
+  final String userSubtitle;
+
+  const DashboardPage({
+    super.key,
+    this.userName = 'Valen',
+    this.userSubtitle = 'PPLG XII-3',
+  });
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
@@ -16,14 +24,17 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
 
+      // ========================= NAVBAR =========================
+      appBar: CustomNavBar(
+        userName: widget.userName,
+        userSubtitle: widget.userSubtitle,
+      ),
+
       // ========================= BODY =========================
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ---------------- HEADER ----------------
-
-
             // ---------------- HERO BANNER ----------------
             Container(
               width: double.infinity,
