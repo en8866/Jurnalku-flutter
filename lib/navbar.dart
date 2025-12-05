@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'pengaturanAkun.dart';
 import 'exploreeeee.dart';
 import 'Dashboard.dart';
+import 'profile.dart';
+import 'jurnalPembiasaan.dart';
+import 'ProgresBelajar.dart';
+import 'catatan_sikap.dart';
+import 'guidePage.dart';
 
 // Main Navbar Widget with Dropdown
 class CustomNavBar extends StatefulWidget implements PreferredSizeWidget {
@@ -29,6 +34,106 @@ class _CustomNavBarState extends State<CustomNavBar> {
   final GlobalKey<PopupMenuButtonState<String>> _menuKey =
       GlobalKey<PopupMenuButtonState<String>>();
 
+  void _handleMenuSelection(String value, BuildContext context) {
+    switch (value) {
+      case 'dashboard':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const DashboardPage()),
+        );
+        break;
+        
+      case 'profile':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfilePage()),
+        );
+        break;
+        
+      case 'schedule':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const StudentDirectoryPage()),
+        );
+        break;
+        
+      case 'journal':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const JurnalPembiasaanPage()),
+        );
+        break;
+        
+      case 'permission':
+        // TODO: Create Permintaan Saksi page
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Permintaan Saksi - Coming Soon')),
+        );
+        break;
+        
+      case 'progress':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProgressBelajarPage()),
+        );
+        break;
+        
+      case 'warning':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const CatatanSikapPage()),
+        );
+        break;
+        
+      case 'guide':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const GuidePage()),
+        );
+        break;
+        
+      case 'settings':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const PengaturanAkunPage()),
+        );
+        break;
+        
+      case 'logout':
+        // Show confirmation dialog before logout
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Konfirmasi Logout'),
+              content: const Text('Apakah Anda yakin ingin keluar?'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Batal'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Close dialog
+                    Navigator.pushNamedAndRemoveUntil(
+                      context, 
+                      '/login', 
+                      (route) => false,
+                    );
+                  },
+                  child: const Text(
+                    'Logout',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -55,39 +160,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
           // User Info Section with Dropdown
           PopupMenuButton<String>(
             key: _menuKey,
-              offset: const Offset(0, 60), // <-- PUSH MENU DOWN
-            onSelected: (value) {
-              // open Dashboard for "Dashboard" menu item
-              if (value == 'dashboard') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const DashboardPage()),
-                );
-                return;
-              }
-              
-              // open StudentDirectoryPage for "Jelajahi"
-              if (value == 'schedule') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const StudentDirectoryPage()),
-                );
-                return;
-              }
-
-              if (value == 'profile') {
-                Navigator.pushNamed(context, '/profile');
-              } else if (value == 'settings') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PengaturanAkunPage(),
-                  ),
-                );
-              } else if (value == 'logout') {
-                Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-              }
-            },
+            offset: const Offset(0, 60),
+            onSelected: (value) => _handleMenuSelection(value, context),
             itemBuilder: (BuildContext context) => [
               const PopupMenuItem<String>(
                 value: 'dashboard',
@@ -113,7 +187,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
                 value: 'schedule',
                 child: Row(
                   children: [
-                    Icon(Icons.schedule, color: Colors.grey, size: 20),
+                    Icon(Icons.explore, color: Colors.grey, size: 20),
                     SizedBox(width: 12),
                     Text('Jelajahi'),
                   ],
@@ -145,7 +219,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
                   children: [
                     Icon(Icons.bar_chart, color: Colors.grey, size: 20),
                     SizedBox(width: 12),
-                    Text('Progress'),
+                    Text('Progress Belajar'),
                   ],
                 ),
               ),
@@ -245,7 +319,6 @@ class ExamplePage extends StatelessWidget {
         userSubtitle: 'PPLG XII-3',
         onHomeTap: () {
           print('Home tapped');
-          // Navigator.pushNamed(context, '/home');
         },
       ),
       body: const Center(
@@ -333,43 +406,6 @@ class CustomNavBarAltIcon extends StatelessWidget implements PreferredSizeWidget
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-// Example with multiple pages using the same navbar
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomNavBar(
-        userName: 'Molldy Apriansyah',
-        userSubtitle: 'PPLG XII-3',
-        onHomeTap: () {
-          // Already on home
-        },
-      ),
-      body: const Center(child: Text('Home Page')),
-    );
-  }
-}
-
-class ProfilePageExample extends StatelessWidget {
-  const ProfilePageExample({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomNavBar(
-        userName: 'Molldy Apriansyah',
-        userSubtitle: 'PPLG XII-3',
-        onHomeTap: () {
-          Navigator.pop(context);
-        },
-      ),
-      body: const Center(child: Text('Profile Page')),
-    );
-  }
 }
 
 // If you want to use it with a custom color scheme:

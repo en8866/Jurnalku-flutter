@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'navbar.dart'; // Import your navbar
 
 class GuidePage extends StatelessWidget {
   const GuidePage({super.key});
@@ -8,9 +9,18 @@ class GuidePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // ===========================
-      // BODY BISA SCROLL
-      // ===========================
+
+
+      appBar: CustomNavBar(
+        userName: 'Valen', 
+        userSubtitle: 'PPLG XII-3', 
+        onHomeTap: () {
+          Navigator.pop(context); 
+        },
+      ),
+
+
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
@@ -112,9 +122,7 @@ class GuidePage extends StatelessWidget {
   }
 }
 
-// ===================================================================
-// CARD ITEM
-// ===================================================================
+
 class GuideCard extends StatelessWidget {
   final IconData icon;
   final String title;

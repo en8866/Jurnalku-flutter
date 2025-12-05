@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// 1. Import the navbar file
+import 'navbar.dart'; 
 
 class ProgressBelajarPage extends StatelessWidget {
   const ProgressBelajarPage({super.key});
@@ -81,16 +83,12 @@ class ProgressBelajarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F7FB),
-      appBar: AppBar(
-        title: const Text(
-          "Progress Belajar",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black87,
-        elevation: 1,
+      // 2. Add CustomNavBar to the appBar
+      appBar: CustomNavBar(
+        userName: 'Valen', // Placeholder name
+        userSubtitle: 'PPLG XII-3', // Placeholder subtitle
       ),
+      backgroundColor: const Color(0xFFF6F7FB),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -106,7 +104,7 @@ class ProgressBelajarPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            /// 📌 CARD : Materi Diselesaikan
+            /// 東 CARD : Materi Diselesaikan
             buildStatCard(
               title: "Materi Diselesaikan",
               value: 0,
@@ -115,7 +113,7 @@ class ProgressBelajarPage extends StatelessWidget {
               icon: Icons.check_circle,
             ),
 
-            /// 📌 CARD : Pending
+            /// 東 CARD : Pending
             buildStatCard(
               title: "Pengajuan Pending",
               value: 0,
@@ -124,7 +122,7 @@ class ProgressBelajarPage extends StatelessWidget {
               icon: Icons.access_time,
             ),
 
-            /// 📌 CARD : Materi Hari Ini
+            /// 東 CARD : Materi Hari Ini
             buildStatCard(
               title: "Materi Hari Ini",
               value: 0,
@@ -133,7 +131,7 @@ class ProgressBelajarPage extends StatelessWidget {
               icon: Icons.calendar_today,
             ),
 
-            /// 📌 CARD : Revisi
+            /// 東 CARD : Revisi
             buildStatCard(
               title: "Materi Revisi",
               value: 0,
@@ -155,7 +153,7 @@ class ProgressBelajarPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            /// 📌 TABEL PROGRESS AKADEMIK
+            /// 東 TABEL PROGRESS AKADEMIK
             Container(
               padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
               decoration: BoxDecoration(
@@ -180,7 +178,7 @@ class ProgressBelajarPage extends StatelessWidget {
 
             const SizedBox(height: 25),
 
-            /// 📌 LIHAT PROGRESS
+            /// 東 LIHAT PROGRESS
             Container(
               padding: const EdgeInsets.all(22),
               decoration: BoxDecoration(

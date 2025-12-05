@@ -49,6 +49,79 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
       backgroundColor: Colors.white,
       body: Column(
         children: [
+          // Sticky Navbar
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: SafeArea(
+              bottom: false,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.menu_book, color: Colors.blue[700], size: 24),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Jurnalku',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue[700],
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text('Login'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Fixed Header with Kembali button
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(12),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const StudentDirectoryPage()),
+                  );
+                },
+                icon: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
+                label: const Text(
+                  'Kembali',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue[800],
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 2,
+                ),
+              ),
+            ),
+          ),
           Stack(
             children: [
               Container(
@@ -67,29 +140,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                     colors: [Colors.black.withOpacity(0.3), Colors.black.withOpacity(0.5)],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                  ),
-                ),
-              ),
-              // BACK BUTTON - Navigate to Explore
-              SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const StudentDirectoryPage()),
-                        );
-                      },
-                      padding: const EdgeInsets.all(8),
-                      constraints: const BoxConstraints(),
-                    ),
                   ),
                 ),
               ),

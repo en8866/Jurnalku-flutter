@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// Import CustomNavBar from the separate file
+import 'navbar.dart';
 
 class CatatanSikapPage extends StatefulWidget {
   const CatatanSikapPage({super.key});
@@ -30,6 +32,13 @@ class _CatatanSikapPageState extends State<CatatanSikapPage> {
     
     return Scaffold(
       backgroundColor: Colors.white,
+      // --- START: ADDED CustomNavBar HERE ---
+      appBar: CustomNavBar(
+        userName: 'Valen', // Replace with dynamic user data
+        userSubtitle: 'PPLG XII-3', // Replace with dynamic user data
+        context: context, // Pass context for navigation logic within CustomNavBar
+      ),
+      // --- END: ADDED CustomNavBar HERE ---
       body: Container(
         color: const Color(0xFFF9FAFB),
         child: SingleChildScrollView(
@@ -288,7 +297,7 @@ class _CatatanSikapPageState extends State<CatatanSikapPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildDetailRow('No', '${catatan['no']}', isMobile),
+                  _buildDetailRow('No', catatan['no'].toString(), isMobile), // Ensure 'no' is string
                   const SizedBox(height: 12),
                   _buildDetailRow('Kategori', catatan['kategori'], isMobile),
                   const SizedBox(height: 12),

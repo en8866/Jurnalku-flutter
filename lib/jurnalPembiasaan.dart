@@ -1,4 +1,6 @@
+// jurnalPembiasaan.dart
 import 'package:flutter/material.dart';
+import 'navbar.dart'; // Import CustomNavBar
 
 class JurnalPembiasaanPage extends StatelessWidget {
   const JurnalPembiasaanPage({super.key});
@@ -6,13 +8,20 @@ class JurnalPembiasaanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Add the CustomNavBar as the AppBar
+      appBar: const CustomNavBar(
+        userName: 'Valen', // Placeholder user name
+        userSubtitle: 'PPLG XII-3', // Placeholder user subtitle
+        // onHomeTap is optional, but setting it here for completeness.
+        // The CustomNavBar itself handles the navigation inside its implementation.
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
+            // Header (Original content starts here)
             const Text(
               "Jurnal Pembiasaan",
               style: TextStyle(
