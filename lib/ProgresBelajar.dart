@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-// 1. Import the navbar file
-import 'navbar.dart'; 
+import 'navbar.dart';
 
-class ProgressBelajarPage extends StatelessWidget {
+class ProgressBelajarPage extends StatefulWidget {
   const ProgressBelajarPage({super.key});
+
+  @override
+  State<ProgressBelajarPage> createState() => _ProgressBelajarPageState();
+}
+
+class _ProgressBelajarPageState extends State<ProgressBelajarPage> {
+  Map<String, bool> expanded = {};
 
   Widget buildStatCard({
     required String title,
@@ -65,8 +71,6 @@ class ProgressBelajarPage extends StatelessWidget {
               ),
             ],
           ),
-
-          /// ICON BULAT
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
@@ -80,178 +84,138 @@ class ProgressBelajarPage extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // 2. Add CustomNavBar to the appBar
-      appBar: CustomNavBar(
-        userName: 'Valen', // Placeholder name
-        userSubtitle: 'PPLG XII-3', // Placeholder subtitle
+  // ============================================================
+  // CARD KOMPETENSI
+  // ============================================================
+  Widget buildCompetencyCard({
+    required String title,
+    required String subtitle,
+  }) {
+    expanded.putIfAbsent(title, () => false);
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      backgroundColor: const Color(0xFFF6F7FB),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "STATISTIK KOMPETENSI",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF1F2937),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            /// 東 CARD : Materi Diselesaikan
-            buildStatCard(
-              title: "Materi Diselesaikan",
-              value: 0,
-              label: "Selesai",
-              color: Colors.green,
-              icon: Icons.check_circle,
-            ),
-
-            /// 東 CARD : Pending
-            buildStatCard(
-              title: "Pengajuan Pending",
-              value: 0,
-              label: "Pending",
-              color: Colors.orange,
-              icon: Icons.access_time,
-            ),
-
-            /// 東 CARD : Materi Hari Ini
-            buildStatCard(
-              title: "Materi Hari Ini",
-              value: 0,
-              label: "Hari Ini",
-              color: Colors.blue,
-              icon: Icons.calendar_today,
-            ),
-
-            /// 東 CARD : Revisi
-            buildStatCard(
-              title: "Materi Revisi",
-              value: 0,
-              label: "Revisi",
-              color: Colors.purple,
-              icon: Icons.refresh,
-            ),
-
-            const SizedBox(height: 10),
-            const Divider(height: 40),
-
-            const Text(
-              "Progress Akademik",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF1F2937),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            /// 東 TABEL PROGRESS AKADEMIK
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(18),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 10,
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  buildRowProgress("Selesai", Colors.blue, 0),
-                  buildRowProgress("Pending", Colors.deepPurple, 0),
-                  buildRowProgress("Belum", Colors.blueGrey, 0),
-                  buildRowProgress("Hari Ini", Colors.teal, 0),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            /// 東 LIHAT PROGRESS
-            Container(
-              padding: const EdgeInsets.all(22),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(18),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 10,
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          "Lihat Progress Kamu",
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Icon(Icons.arrow_forward, color: Colors.blue),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Belum ada kompetensi / progress",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.blue,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  Row(
-                    children: const [
-                      Text(
-                        "Lihat semua Kompetensi ",
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black87,
-                          decoration: TextDecoration.underline,
-                        ),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                expanded[title] = !expanded[title]!;
+              });
+            },
+            behavior: HitTestBehavior.opaque,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF1F2937),
                       ),
-                      Icon(Icons.arrow_forward, size: 18),
-                    ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF6B7280),
+                      ),
+                    ),
+                  ],
+                ),
+                AnimatedRotation(
+                  turns: expanded[title]! ? 0.5 : 0,
+                  duration: const Duration(milliseconds: 200),
+                  child: const Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    size: 28,
+                    color: Colors.grey,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+          ),
 
-            const SizedBox(height: 40),
-            const Center(
-              child: Text(
-                "© GEN-28 PPLG SMK Wikrama Bogor. All Rights Reserved.",
-                style: TextStyle(color: Colors.grey),
-              ),
-            ),
-            const SizedBox(height: 40),
-          ],
-        ),
+          const SizedBox(height: 14),
+
+          AnimatedCrossFade(
+            firstChild: const SizedBox.shrink(),
+            secondChild: buildExpandedContent(),
+            crossFadeState: expanded[title]!
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
+            duration: const Duration(milliseconds: 250),
+          ),
+        ],
       ),
     );
   }
 
+  // ============================================================
+  // EXPANDED — UDAH DIUBAH SESUAI PERINTAH
+  // ============================================================
+  Widget buildExpandedContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 12),
+
+        // HEADER TABEL (TETAP ADA)
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: const [
+              _HeaderCell("KOMPETENSI", width: 110),
+              _HeaderCell("GURU", width: 80),
+              _HeaderCell("TANGGAL", width: 90),
+              _HeaderCell("STATUS", width: 80),
+              _HeaderCell("Catatan Guru", width: 140),
+              _HeaderCell("Catatan Siswa", width: 140),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 20),
+
+        // ===========================
+        //   DIGANTI -> BELUM ADA MATERI
+        // ===========================
+        const Center(
+          child: Text(
+            "Belum ada materi",
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.black54,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 12),
+      ],
+    );
+  }
+
+  // ============================================================
+  // SUPPORT WIDGETS
+  // ============================================================
   Widget buildRowProgress(String text, Color color, int value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -280,6 +244,198 @@ class ProgressBelajarPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  String _getCurrentDate() {
+    final now = DateTime.now();
+    final days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    final months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    final dayName = days[now.weekday - 1];
+    final monthName = months[now.month - 1];
+
+    return '$dayName, ${now.day} $monthName ${now.year}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomNavBar(
+        userName: 'Valen',
+        userSubtitle: 'PPLG XII-3',
+      ),
+      backgroundColor: const Color(0xFFF6F7FB),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Progress Belajar",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w800,
+                color: Color(0xFF1F2937),
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              "Pantau perkembangan kompetensi dan materi pembelajaran Anda",
+              style: TextStyle(
+                fontSize: 14,
+                color: Color(0xFF6B7280),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              _getCurrentDate(),
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.blue,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            buildStatCard(
+              title: "Total Pengajuan",
+              value: 1,
+              label: "Semua status",
+              color: Colors.blue,
+              icon: Icons.check_circle_outline,
+            ),
+            buildStatCard(
+              title: "Halaman Ini",
+              value: 0,
+              label: "Data ditampilkan",
+              color: Colors.green,
+              icon: Icons.description_outlined,
+            ),
+            buildStatCard(
+              title: "Status Pending",
+              value: 0,
+              label: "Perlu validasi",
+              color: Colors.orange,
+              icon: Icons.access_time,
+            ),
+            buildStatCard(
+              title: "Total Halaman",
+              value: 1,
+              label: "Navigasi tersedia",
+              color: Colors.purple,
+              icon: Icons.layers_outlined,
+            ),
+
+            const SizedBox(height: 20),
+
+            buildCompetencyCard(
+              title: "Project Work",
+              subtitle: "Kompetensi dan materi pembelajaran",
+            ),
+            buildCompetencyCard(
+              title: "Mobile Apps",
+              subtitle: "Kompetensi dan materi pembelajaran",
+            ),
+            buildCompetencyCard(
+              title: "UKK (Uji Kompetensi Keahlian)",
+              subtitle: "Kompetensi dan materi pembelajaran",
+            ),
+            buildCompetencyCard(
+              title: "GIM",
+              subtitle: "Kompetensi dan materi pembelajaran",
+            ),
+
+            const SizedBox(height: 40),
+            const Center(
+              child: Text(
+                "© GEN-28 PPLG SMK Wikrama Bogor. All Rights Reserved.",
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+            ),
+            const SizedBox(height: 40),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ============================================================
+// SUB WIDGET
+// ============================================================
+
+class _HeaderCell extends StatelessWidget {
+  final String title;
+  final double width;
+
+  const _HeaderCell(this.title, {this.width = 100, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      alignment: Alignment.center,
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 11,
+          color: Color(0xFF9CA3AF),
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
+class _DataCell extends StatelessWidget {
+  final String text;
+  final double width;
+
+  const _DataCell(this.text, {this.width = 100, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      alignment: Alignment.center,
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 12),
+      ),
+    );
+  }
+}
+
+class _StatusBadge extends StatelessWidget {
+  final String text;
+  final Color color;
+
+  const _StatusBadge(this.text, this.color, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100,
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(50),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        text,
+        style: TextStyle(
+          color: color,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
