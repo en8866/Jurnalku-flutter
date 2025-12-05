@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jurnalku/ProgresBelajar.dart';
-import 'navbar.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -16,15 +15,6 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-
-      // add navbar here (fixed)
-      appBar: CustomNavBar(
-        userName: 'Valen',
-        userSubtitle: 'PPLG XII-3',
-        onHomeTap: () {
-          // Already on home/dashboard
-        },
-      ),
 
       // ========================= BODY =========================
       body: SingleChildScrollView(
