@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jurnalku/exploreeeee.dart';
+import 'package:jurnalku/catatan_sikap.dart';
 
 
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Jurnalku',
-      home: const ExploreeeePage(),
+      home: const CatatanSikapPage(),
     );
   }
 }
