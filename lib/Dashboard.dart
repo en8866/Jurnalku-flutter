@@ -335,36 +335,7 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
       ),
 
-      // ==========================================================
-      //                     BOTTOM NAVIGATION BAR
-      // ==========================================================
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        selectedItemColor: Colors.blue.shade800,
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard_outlined),
-            label: "Dashboard",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book_outlined),
-            label: "Jurnal",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: "Profil",
-          ),
-        ],
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-            // optionally navigate to different pages here
-          });
-        },
-      ),
+      
     );
   }
 
