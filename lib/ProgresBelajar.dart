@@ -373,7 +373,7 @@ class _HeaderCell extends StatelessWidget {
   final String title;
   final double width;
 
-  const _HeaderCell(this.title, {this.width = 100, super.key});
+  const _HeaderCell(this.title, {this.width = 100});
 
   @override
   Widget build(BuildContext context) {
@@ -386,54 +386,6 @@ class _HeaderCell extends StatelessWidget {
         style: const TextStyle(
           fontSize: 11,
           color: Color(0xFF9CA3AF),
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-}
-
-class _DataCell extends StatelessWidget {
-  final String text;
-  final double width;
-
-  const _DataCell(this.text, {this.width = 100, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      alignment: Alignment.center,
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 12),
-      ),
-    );
-  }
-}
-
-class _StatusBadge extends StatelessWidget {
-  final String text;
-  final Color color;
-
-  const _StatusBadge(this.text, this.color, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(50),
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        text,
-        style: TextStyle(
-          color: color,
-          fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
       ),
