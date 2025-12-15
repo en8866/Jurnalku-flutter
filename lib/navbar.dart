@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'pengaturanAkun.dart';
-import 'exploreeeee.dart';
+import 'exploreeeeeLogin.dart'; // Changed from exploreeeee.dart
 import 'Dashboard.dart';
-import 'profile.dart';
+import 'profileLogin.dart';
 import 'jurnalPembiasaan.dart';
 import 'ProgresBelajar.dart';
 import 'catatan_sikap.dart';
 import 'guidePage.dart';
 
-// Main Navbar Widget with Dropdown
 class CustomNavBar extends StatefulWidget implements PreferredSizeWidget {
   final String userName;
   final String userSubtitle;
@@ -46,7 +45,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
       case 'profile':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const ProfilePage()),
+          MaterialPageRoute(builder: (context) => const ProfileAppLogin()),
         );
         break;
         
@@ -65,7 +64,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
         break;
         
       case 'permission':
-        // TODO: Create Permintaan Saksi page
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Permintaan Saksi - Coming Soon')),
         );
@@ -100,7 +98,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
         break;
         
       case 'logout':
-        // Show confirmation dialog before logout
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -114,7 +111,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(context); // Close dialog
+                    Navigator.pop(context);
                     Navigator.pushNamedAndRemoveUntil(
                       context, 
                       '/login', 
@@ -142,7 +139,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
       automaticallyImplyLeading: false,
       title: Row(
         children: [
-          // Home Icon - Navigate to Explore
           IconButton(
             icon: const Icon(Icons.home_outlined, color: Colors.grey),
             onPressed: () {
@@ -157,7 +153,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
           
           const Spacer(),
           
-          // User Info Section with Dropdown
           PopupMenuButton<String>(
             key: _menuKey,
             offset: const Offset(0, 60),
@@ -292,7 +287,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
                 ),
                 const SizedBox(width: 12),
                 
-                // Profile Icon
                 CircleAvatar(
                   radius: 20,
                   backgroundColor: Colors.grey[300],
@@ -307,7 +301,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
   }
 }
 
-// Example Usage Page
 class ExamplePage extends StatelessWidget {
   const ExamplePage({super.key});
 
@@ -328,7 +321,6 @@ class ExamplePage extends StatelessWidget {
   }
 }
 
-// Alternative: Navbar with different icon style
 class CustomNavBarAltIcon extends StatelessWidget implements PreferredSizeWidget {
   final String userName;
   final String userSubtitle;
@@ -408,7 +400,6 @@ class CustomNavBarAltIcon extends StatelessWidget implements PreferredSizeWidget
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-// If you want to use it with a custom color scheme:
 class CustomStyledNavBar extends StatelessWidget implements PreferredSizeWidget {
   final String userName;
   final String userSubtitle;
