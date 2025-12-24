@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jurnalku/Dashboard.dart';
-import 'package:jurnalku/profileLogin.dart';
+import 'package:jurnalku/profile.dart';
+import 'services/api_service.dart';
+import 'models/models.dart';
 
 void main() {
   runApp(const ExploreeeePageLogin());
@@ -31,23 +33,59 @@ class StudentDirectoryPage extends StatefulWidget {
 
 class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
   final TextEditingController _searchController = TextEditingController();
+  final ApiService _apiService = ApiService();
+  
   int currentPage = 1;
   static const int itemsPerPage = 10;
-  static const int totalStudents = 120;
   static const Color primaryBlue = Color(0xFF2563eb);
   
-  final List<Student> students = List.generate(
-    10,
-    (index) => Student(
-      name: index % 2 == 0 ? 'Valen' : 'Valen',
-      id: index % 2 == 0 ? '12345678' : '12345678',
-      classRoom: index % 2 == 0 ? 'PPLG XII-5' : 'PPLG XII-3',
-      major: index % 2 == 0 ? 'wik 5' : 'wik 5',
-      portfolios: index % 2 == 0 ? 1 : 2,
-      certificates: index % 2 == 0 ? 8 : 1,
-      imageUrl: 'https://via.placeholder.com/150',
-    ),
-  );
+  List<DataSiswa> allStudents = [];
+  List<DataSiswa> filteredStudents = [];
+  bool isLoading = true;
+  String? errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStudents();
+  }
+
+  Future<void> _loadStudents() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = null;
+    });
+
+    try {
+      final students = await _apiService.getDataSiswa();
+      setState(() {
+        allStudents = students;
+        filteredStudents = students;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = e.toString();
+        isLoading = false;
+      });
+    }
+  }
+
+  void _searchStudents() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      if (query.isEmpty) {
+        filteredStudents = allStudents;
+      } else {
+        filteredStudents = allStudents.where((student) {
+          return student.namaSiswa.toLowerCase().contains(query) ||
+                 student.nis.toString().contains(query) ||
+                 student.rombel.toLowerCase().contains(query);
+        }).toList();
+      }
+      currentPage = 1;
+    });
+  }
 
   @override
   void dispose() {
@@ -57,10 +95,10 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final visibleStudents = students
-        .skip((currentPage - 1) * itemsPerPage)
-        .take(itemsPerPage)
-        .toList();
+    final totalStudents = filteredStudents.length;
+    final startIndex = (currentPage - 1) * itemsPerPage;
+    final endIndex = (startIndex + itemsPerPage).clamp(0, totalStudents);
+    final visibleStudents = filteredStudents.sublist(startIndex, endIndex);
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -134,28 +172,50 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
           ),
         ),
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: visibleStudents.length + 3,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return _buildHeaderContent();
-          }
-          if (index == 1) {
-            return _buildResultsCount();
-          }
-          if (index == visibleStudents.length + 2) {
-            return _buildPagination();
-          }
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: _buildStudentCard(visibleStudents[index - 2]),
-            ),
-          );
-        },
-      ),
+      body: isLoading 
+          ? const Center(child: CircularProgressIndicator())
+          : errorMessage != null
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Error: $errorMessage',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: _loadStudents,
+                        child: const Text('Coba Lagi'),
+                      ),
+                    ],
+                  ),
+                )
+              : ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: visibleStudents.length + 3,
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return _buildHeaderContent();
+                    }
+                    if (index == 1) {
+                      return _buildResultsCount(totalStudents, startIndex, endIndex);
+                    }
+                    if (index == visibleStudents.length + 2) {
+                      return _buildPagination(totalStudents);
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _buildStudentCard(visibleStudents[index - 2]),
+                      ),
+                    );
+                  },
+                ),
     );
   }
 
@@ -176,7 +236,6 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
         top: false,
         child: Column(
           children: [
-            // Title and subtitle
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -204,7 +263,6 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
               ),
             ),
             
-            // Search and Filter section
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
               padding: const EdgeInsets.all(20),
@@ -226,6 +284,7 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                       Expanded(
                         child: TextField(
                           controller: _searchController,
+                          onChanged: (_) => _searchStudents(),
                           decoration: InputDecoration(
                             hintText: 'Cari nama siswa, NIS, atau rombel...',
                             hintStyle: TextStyle(
@@ -253,7 +312,7 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                       ),
                       const SizedBox(width: 12),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _searchStudents,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryBlue,
                           foregroundColor: Colors.white,
@@ -300,11 +359,11 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
     );
   }
 
-  Widget _buildResultsCount() {
+  Widget _buildResultsCount(int total, int start, int end) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
       child: Text(
-        'Menampilkan ${(currentPage - 1) * itemsPerPage + 1} - ${currentPage * itemsPerPage > totalStudents ? totalStudents : currentPage * itemsPerPage} dari $totalStudents siswa',
+        'Menampilkan ${start + 1} - $end dari $total siswa',
         style: TextStyle(
           color: Colors.grey[700],
           fontSize: 14,
@@ -313,104 +372,129 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
     );
   }
 
-  Widget _buildStudentCard(Student student) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
+  Widget _buildStudentCard(DataSiswa student) {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(12),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.05),
+          blurRadius: 10,
+          offset: const Offset(0, 2),
+        ),
+      ],
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              // ✅ Fixed CircleAvatar with better error handling
+              CircleAvatar(
+                radius: 32,
+                backgroundColor: Colors.blue[700],
+                foregroundImage: student.pfpUrl.isNotEmpty 
+                    ? NetworkImage(student.pfpUrl) 
+                    : null,
+                onForegroundImageError: student.pfpUrl.isNotEmpty 
+                    ? (exception, stackTrace) {
+                        // This will show the fallback (letter) if image fails to load
+                      }
+                    : null,
+                child: Text(
+                  student.namaSiswa[0].toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 24, 
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            student.namaSiswa,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            '${student.nis} | ${student.rombel} | ${student.rayon}',
+            style: TextStyle(
+              color: Colors.grey[600],
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Icon(Icons.folder_outlined, size: 16, color: Colors.grey[600]),
+              const SizedBox(width: 6),
+              Text(
+                '${student.portofolio.length} Portfolio',
+                style: TextStyle(color: Colors.grey[600], fontSize: 13),
+              ),
+              const SizedBox(width: 18),
+              Icon(Icons.workspace_premium_outlined, size: 16, color: Colors.grey[600]),
+              const SizedBox(width: 6),
+              Text(
+                '${student.sertifikat.length} Sertifikat',
+                style: TextStyle(color: Colors.grey[600], fontSize: 13),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileApp(
+                      studentData: student, 
+                      isLoggedIn: true,
+                    ),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryBlue,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Lihat Detail',
+                    style: TextStyle(
+                      fontSize: 15, 
+                      color: Colors.white, 
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Icon(Icons.arrow_forward_rounded, size: 18, color: Colors.white),
+                ],
+              ),
+            ),
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 32,
-                  backgroundImage: NetworkImage(student.imageUrl),
-                  backgroundColor: Colors.grey[300],
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              student.name,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              '${student.id} | ${student.classRoom} | ${student.major}',
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 14,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Icon(Icons.folder_outlined, size: 16, color: Colors.grey[600]),
-                const SizedBox(width: 6),
-                Text(
-                  '${student.portfolios} Portfolio',
-                  style: TextStyle(color: Colors.grey[600], fontSize: 13),
-                ),
-                const SizedBox(width: 18),
-                Icon(Icons.workspace_premium_outlined, size: 16, color: Colors.grey[600]),
-                const SizedBox(width: 6),
-                Text(
-                  '${student.certificates} Sertifikat',
-                  style: TextStyle(color: Colors.grey[600], fontSize: 13),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ProfileAppLogin()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryBlue,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Lihat Detail',
-                      style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(width: 8),
-                    Icon(Icons.arrow_forward_rounded, size: 18, color: Colors.white),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+    ),
+  );
+}
 
-  Widget _buildPagination() {
+  Widget _buildPagination(int totalStudents) {
     final totalPages = (totalStudents / itemsPerPage).ceil();
     
     return Padding(
@@ -433,7 +517,6 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
           ),
           const SizedBox(width: 8),
           OutlinedButton.icon(
-            // Use totalPages to check if we can go to next page
             onPressed: currentPage < totalPages ? () => setState(() => currentPage++) : null,
             icon: const Icon(Icons.chevron_right, size: 18),
             label: const Text('Next'),
@@ -450,24 +533,4 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
       ),
     );
   }
-}
-
-class Student {
-  final String name;
-  final String id;
-  final String classRoom;
-  final String major;
-  final int portfolios;
-  final int certificates;
-  final String imageUrl;
-
-  Student({
-    required this.name,
-    required this.id,
-    required this.classRoom,
-    required this.major,
-    required this.portfolios,
-    required this.certificates,
-    required this.imageUrl,
-  });
 }
