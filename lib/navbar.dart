@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jurnalku/exploreeeee.dart' hide StudentDirectoryPage;
+import 'package:jurnalku/PermintaanSaksi.dart';
 import 'pengaturanAkun.dart';
 import 'exploreeeeeLogin.dart'; // Changed from exploreeeee.dart
 import 'Dashboard.dart';
@@ -154,8 +154,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
         break;
         
       case 'permission':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Permintaan Saksi - Coming Soon')),
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const PermintaanSaksiPage()),
         );
         break;
         
